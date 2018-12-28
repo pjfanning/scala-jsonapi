@@ -1,10 +1,10 @@
-organization := "org.zalando"
+organization := "io.kontainers"
 
 name := "scala-jsonapi"
 
-scalaVersion := "2.11.12"
+scalaVersion := "2.12.8"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.8")
+crossScalaVersions := Seq("2.11.12", scalaVersion.value)
 
 scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation")
 
@@ -39,10 +39,10 @@ publishArtifact in Test := false
 
 pomIncludeRepository := { _ => false }
 
-sonatypeProfileName := "org.zalando"
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
 
 pomExtra := (
-  <url>https://github.com/zalando/scala-jsonapi</url>
+  <url>https://github.com/kontainers/scala-jsonapi</url>
   <licenses>
     <license>
       <name>MIT</name>
@@ -51,13 +51,18 @@ pomExtra := (
     </license>
   </licenses>
   <scm>
-    <url>git@github.com:zalando/scala-jsonapi.git</url>
-    <connection>scm:git:git@github.com:zalando/scala-jsonapi.git</connection>
+    <url>git@github.com:kontainers/scala-jsonapi.git</url>
+    <connection>scm:git:git@github.com:kontainers/scala-jsonapi.git</connection>
   </scm>
   <developers>
     <developer>
       <id>zmeda</id>
       <name>Boris Malensek</name>
       <url>https://github.com/zmeda</url>
+    </developer>
+    <developer>
+      <id>pjfanning</id>
+      <name>PJ Fanning</name>
+      <url>https://github.com/pjfanning</url>
     </developer>
   </developers>)
