@@ -11,8 +11,8 @@ scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation")
 libraryDependencies ++= {
 
   Seq(
-    "com.typesafe.play" %% "play-json"              % "2.6.11"        % "provided",
-    "org.scalatest"     %% "scalatest"              % "3.0.6-SNAP5"   % "test"
+    "com.typesafe.play" %% "play-json"      % "2.6.13"        % "provided",
+    "org.scalatest"     %% "scalatest"      % "3.0.6-SNAP5"   % Test
   )
 }
 
