@@ -34,8 +34,3 @@ The library provides serialization and deserialization of JSON API root objects 
 
 scala-jsonapi is licensed under the [MIT license](LICENSE) unless otherwise stated in the license files in higher directories (if any).
 
-# External Reading
-
-[jsonapi]: http://jsonapi.org/
-[Play-JSON]: https://www.playframework.com/documentation/2.6.x/ScalaJson
-
