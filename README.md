@@ -22,15 +22,83 @@ To use scala-jsonapi, first add a library dependency — assuming that you have 
 
     libraryDependencies += "io.kontainers" %% "scala-jsonapi" % "0.7.0-SNAPSHOT"
 
-You also have to provide the used backend (e.g. spray-json).
+You also have to provide the used backend (e.g. play-json).
 
-# Usage
+The library provides serialization and deserialization of JSON API root objects to JSON using either Spray-JSON or Play-JSON. Please note that you need to explicitly add a dependency to either spray-json or play-json to your project.
 
-The rich JSON API model is available via the following import:
+## Spray-JSON
 
-    import org.zalando.jsonapi.model._
+    import org.zalando.jsonapi.json.sprayjson.SprayJsonJsonapiProtocol._
+    import spray.json._
 
-The library provides serialization and deserialization of JSON API root objects to JSON using Play-JSON (and Spray-JSON). Please note that you need to explicitly add a dependency for play-json (or spray-json) to your project.
+    // Serialization
+    val rootObject: RootObject = ???
+    rootObject.toJson
+
+    // Deserialization
+    val json: JsValue = ???
+    json.convertTo[RootObject]
+
+## Play-JSON
+
+The JSON API support can then be imported using `PlayJsonJsonapiSupport` as follows
+
+    import org.zalando.jsonapi.json.playjson.PlayJsonJsonapiSupport._
+    import play.api.libs.json._
+
+    // Serialization
+    val rootObject: RootObject = ???
+    Json.toJson(rootObject)
+
+    // Deserialization
+    val json: JsValue = ???
+    Json.fromJson[RootObject](json)
+
+## Creating a JSON API Root Object
+
+scala-jsonapi provides type class `JsonapiRootObjectWriter` so that you can create a JSON API representation for your resources. The following code snippet demonstrates its usage:
+
+    import org.zalando.jsonapi
+    import jsonapi.Jsonapi
+
+    case class Person(name: String)
+
+    implicit val personJsonapiWriter = new JsonapiRootObjectWriter[Person] {
+      override def toJsonapi(person: Person) = {
+        ???
+      }
+    }
+
+    val personRootObject: RootObject = Jsonapi.asJsonapi(Person("Boris M."))
+
+In contrast there is a type class called `JsonapiRootObjectReader` that supports conversion from JSON API representation to your resources. To illustrate:
+
+    import org.zalando.jsonapi
+    import jsonapi.Jsonapi
+
+    case class Person(name: String)
+
+    implicit val personJsonapiReader = new JsonapiRootObjectReader[Person] {
+      override def fromJsonapi(rootObject: RootObject) = {
+        ???
+      }
+    }
+
+    val person: Person = Jsonapi.fromJsonapi[Person](RootObject(...))
+
+For complete usage, see [the specs example].
+
+## JSON API Links Support
+
+There is support for string and object links.
+
+To create a string "self" link:
+
+    Links.self("href", None)
+
+To create an object "self" link:
+
+    Links.self("href", Some(meta))
 
 # License
 
