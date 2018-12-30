@@ -86,7 +86,7 @@ In contrast there is a type class called `JsonapiRootObjectReader` that supports
 
     val person: Person = Jsonapi.fromJsonapi[Person](RootObject(...))
 
-For complete usage, see [the specs example].
+For complete usage, see [the specs example](src/test/scala/org/zalando/jsonapi/json/ExampleSpec.scala).
 
 ## JSON API Links Support
 
