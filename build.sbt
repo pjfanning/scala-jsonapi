@@ -12,7 +12,7 @@ libraryDependencies ++= {
 
   Seq(
     "io.spray"          %% "spray-json"     % "1.3.5"   % "provided",
-    "com.typesafe.play" %% "play-json"      % "2.7.1"   % "provided",
+    "com.typesafe.play" %% "play-json"      % "2.7.2"   % "provided",
     "org.scalatest"     %% "scalatest"      % "3.0.7"   % Test
   )
 }
