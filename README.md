@@ -14,13 +14,13 @@ scala-jsonapi is a Scala library that aims to help you produce JSON output based
 
 This library is very much a work in progress, so expect its API to change.
 
-This is a fork of https://github.com/scala-jsonapi/scala-jsonapi, made with the intention of supporting play-json (and possibly some spray-json support) in Scala 2.11 and 2.12.
+This is a fork of https://github.com/scala-jsonapi/scala-jsonapi, made with the intention of supporting play-json (and possibly some spray-json support) in Scala 2.12 and 2.13.
 
 # Setup
 
 To use scala-jsonapi, first add a library dependency.
 
-    libraryDependencies += "io.kontainers" %% "scala-jsonapi" % "0.7.0"
+    libraryDependencies += "io.kontainers" %% "scala-jsonapi" % "0.8.0"
 
 You also have to provide the used backend (e.g. play-json).
 
