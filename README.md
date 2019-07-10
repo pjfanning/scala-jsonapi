@@ -4,7 +4,7 @@
 [![codecov.io](https://codecov.io/github/kontainers/scala-jsonapi/coverage.svg?branch=master)](https://codecov.io/github/kontainers/scala-jsonapi?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.kontainers/scala-jsonapi_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.kontainers/scala-jsonapi_2.12)
 
-scala-jsonapi is a Scala library that aims to help you produce JSON output based on the [JSON API specification](https://jsonapi.org/) easily and painlessly. The library is compatible with Scala versions `2.11` and `2.12`. It supports read and write for the following backends:
+scala-jsonapi is a Scala library that aims to help you produce JSON output based on the [JSON API specification](https://jsonapi.org/) easily and painlessly. The library is compatible with Scala versions `2.12` and `2.13`. It supports read and write for the following backends:
 
  * [Play-JSON](https://www.playframework.com/documentation/2.6.x/ScalaJson)
  * [Spray-JSON](https://github.com/spray/spray-json)
