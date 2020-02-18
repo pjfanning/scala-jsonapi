@@ -234,29 +234,28 @@ trait SprayJsonJsonapiFormat { self: DefaultJsonProtocol =>
     */
   implicit lazy val linksFormat: RootJsonFormat[Links] = new RootJsonFormat[Links] {
     override def write(links: Links): JsValue = {
-      val fields = links map (l =>
-        l match {
-          case Links.Self(url, None) => "self" -> url.toJson
-          case Links.Self(url, Some(meta)) => linkValuesToJson("self", url, meta)
+      val fields = links.collect {
+        case Links.Self(url, None) => "self" -> url.toJson
+        case Links.Self(url, Some(meta)) => linkValuesToJson("self", url, meta)
 
-          case Links.About(url, None) => "about" -> url.toJson
-          case Links.About(url, Some(meta)) => linkValuesToJson("about", url, meta)
+        case Links.About(url, None) => "about" -> url.toJson
+        case Links.About(url, Some(meta)) => linkValuesToJson("about", url, meta)
 
-          case Links.First(url, None) => "first" -> url.toJson
-          case Links.First(url, Some(meta)) => linkValuesToJson("first", url, meta)
+        case Links.First(url, None) => "first" -> url.toJson
+        case Links.First(url, Some(meta)) => linkValuesToJson("first", url, meta)
 
-          case Links.Last(url, None) => "last" -> url.toJson
-          case Links.Last(url, Some(meta)) => linkValuesToJson("last", url, meta)
+        case Links.Last(url, None) => "last" -> url.toJson
+        case Links.Last(url, Some(meta)) => linkValuesToJson("last", url, meta)
 
-          case Links.Next(url, None) => "next" -> url.toJson
-          case Links.Next(url, Some(meta)) => linkValuesToJson("next", url, meta)
+        case Links.Next(url, None) => "next" -> url.toJson
+        case Links.Next(url, Some(meta)) => linkValuesToJson("next", url, meta)
 
-          case Links.Prev(url, None) => "prev" -> url.toJson
-          case Links.Prev(url, Some(meta)) => linkValuesToJson("prev", url, meta)
+        case Links.Prev(url, None) => "prev" -> url.toJson
+        case Links.Prev(url, Some(meta)) => linkValuesToJson("prev", url, meta)
 
-          case Links.Related(url, None) => "related" -> url.toJson
-          case Links.Related(url, Some(meta)) => linkValuesToJson("related", url, meta)
-        })
+        case Links.Related(url, None) => "related" -> url.toJson
+        case Links.Related(url, Some(meta)) => linkValuesToJson("related", url, meta)
+      }
       JsObject(fields: _*)
     }
 
@@ -268,20 +267,17 @@ trait SprayJsonJsonapiFormat { self: DefaultJsonProtocol =>
     }
 
     def jsonToLinkValues(linkObjectJson: Map[String, JsValue]): (String, Option[Meta]) = {
-      (linkObjectJson.find(_._1 == "href"), linkObjectJson.find(_._1 == "meta")) match {
-        case(Some(hrefJson), Some(metaJson)) =>
-          val href = hrefJson match {
-            case ("href", JsString(hrefStr)) => hrefStr
-          }
-          val meta: Map[String, JsonApiObject.Value] = metaJson match {
-            case ("meta", JsObject(metaObjectJson)) =>
-              metaObjectJson.map {
-                case (name, value) =>
-                  (name, value.convertTo[JsonApiObject.Value])
-              }
-          }
-          (href, Some(meta))
+      val href = linkObjectJson.collectFirst {
+        case ("href", JsString(hrefStr)) => hrefStr
       }
+      val meta = linkObjectJson.collectFirst {
+        case ("meta", JsObject(metaObjectJson)) =>
+          metaObjectJson.map {
+            case (name, value) =>
+              (name, value.convertTo[JsonApiObject.Value])
+          }
+      }
+      (href.getOrElse(""), meta)
     }
 
     override def read(json: JsValue): Links = {
