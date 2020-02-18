@@ -21,7 +21,7 @@ class JsonApiObjectValueConversionsSpec extends WordSpec with Matchers {
       convertAnyToValue(false) should be(FalseValue)
     }
     "be converted to js array values" in {
-      convertAnyToValue(Seq("one", 2, Map("3" → 4d), false, null)) should be(JsArrayValue(List(
+      convertAnyToValue(Seq("one", 2, Map("3" -> 4d), false, null)) should be(JsArrayValue(List(
         StringValue("one"),
         NumberValue(2),
         JsObjectValue(List(Attribute("3", NumberValue(4d)))),
@@ -31,8 +31,8 @@ class JsonApiObjectValueConversionsSpec extends WordSpec with Matchers {
     }
     "be converted to js object values" in {
       convertAnyToValue(Map(
-        "one" → 2,
-        "3" → List(4f, true, null)
+        "one" -> 2,
+        "3" -> List(4f, true, null)
       )) should be(JsObjectValue(List(
         Attribute("one", NumberValue(2)),
         Attribute("3", JsArrayValue(List(
@@ -54,7 +54,7 @@ class JsonApiObjectValueConversionsSpec extends WordSpec with Matchers {
     }
     "throw an error for unconvertible types" in {
       the[UnconvertibleTypeError] thrownBy {
-        convertAnyToValue(Map(1 → 2))
+        convertAnyToValue(Map(1 -> 2))
       } should have message "Maps must have string keys to be converted to JsonApiObject Values"
 
       the[UnconvertibleTypeError] thrownBy {
