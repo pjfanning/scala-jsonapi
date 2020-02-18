@@ -253,21 +253,18 @@ trait PlayJsonJsonapiFormat {
     }
 
     def jsonToLinkValues(linkObjectJson: Seq[(String, JsValue)]): (String, Option[Meta]) = {
-      (linkObjectJson.find(_._1 == "href"), linkObjectJson.find(_._1 == "meta")) match {
-        case(Some(hrefJson), Some(metaJson)) =>
-          val href = hrefJson match {
-            case ("href", JsString(hrefStr)) => hrefStr
-          }
-          val meta: Map[String, JsonApiObject.Value] = metaJson match {
-            case ("meta", JsObject(metaObjectJson)) =>
-              metaObjectJson.map {
-                case (name, value) =>
-                  (name, value.as[JsonApiObject.Value])
-
-              }.toMap
-          }
-          (href, Some(meta))
+      val href = linkObjectJson.collectFirst {
+        case ("href", JsString(hrefStr)) => hrefStr
       }
+      val meta = linkObjectJson.collectFirst {
+        case ("meta", JsObject(metaObjectJson)) =>
+          metaObjectJson.map {
+            case (name, value) =>
+              (name, value.as[JsonApiObject.Value])
+
+          }.toMap
+      }
+      (href.getOrElse(""), meta)
     }
 
     override def reads(json: JsValue): JsResult[Links] = json match {
