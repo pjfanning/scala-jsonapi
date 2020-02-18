@@ -28,6 +28,8 @@ coverageFailOnMinimum := true
 
 publishMavenStyle := true
 
+Global / useGpg := false
+
 publishTo := {
   val nexus = "https://oss.sonatype.org/"
   if (isSnapshot.value)
