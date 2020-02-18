@@ -1,11 +1,11 @@
 package org.zalando.jsonapi.json.sprayjson
 
-import org.scalatest.MustMatchers
+import org.scalatest.matchers.must.Matchers
 import org.zalando.jsonapi.json.JsonBaseSpec
 import org.zalando.jsonapi.model._
 import spray.json._
 
-class SprayJsonJsonapiFormatSpec extends JsonBaseSpec[JsValue] with MustMatchers with SprayJsonJsonapiProtocol {
+class SprayJsonJsonapiFormatSpec extends JsonBaseSpec[JsValue] with Matchers with SprayJsonJsonapiProtocol {
 
   override protected def parseJson(jsonString: String): JsValue = jsonString.parseJson
 

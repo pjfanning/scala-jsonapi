@@ -1,14 +1,15 @@
 package org.zalando.jsonapi.json
 
-import org.scalatest.{ MustMatchers, WordSpec }
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 import org.zalando.jsonapi.json.sprayjson.SprayJsonJsonapiProtocol
 import org.zalando.jsonapi.model.JsonApiObject.StringValue
 import org.zalando.jsonapi.model.RootObject.ResourceObject
-import org.zalando.jsonapi.model.{ Attribute, Links, RootObject }
-import org.zalando.jsonapi.{ JsonapiRootObjectWriter, _ }
+import org.zalando.jsonapi.model.{Attribute, Links, RootObject}
+import org.zalando.jsonapi.{JsonapiRootObjectWriter, _}
 import spray.json._
 
-class ExampleSpec extends WordSpec with MustMatchers with SprayJsonJsonapiProtocol {
+class ExampleSpec extends AnyWordSpec with Matchers with SprayJsonJsonapiProtocol {
   "JsonapiRootObject" when {
     "using root object serializer" must {
       "serialize accordingly" in {

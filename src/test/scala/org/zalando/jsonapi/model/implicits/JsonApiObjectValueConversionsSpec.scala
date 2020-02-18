@@ -1,18 +1,19 @@
 package org.zalando.jsonapi.model.implicits
 
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 import org.zalando.jsonapi.model.Attribute
 import org.zalando.jsonapi.model.JsonApiObject._
 import org.zalando.jsonapi.model.implicits.JsonApiObjectValueConversions._
 
-class JsonApiObjectValueConversionsSpec extends WordSpec with Matchers {
+class JsonApiObjectValueConversionsSpec extends AnyWordSpec with Matchers {
   "scala values" should {
     "be converted to string values" in {
       convertAnyToValue("string") should be(StringValue("string"))
     }
     "be converted to number values" in {
       convertAnyToValue(42) should be(NumberValue(42))
-      convertAnyToValue(42l) should be(NumberValue(42))
+      convertAnyToValue(42L) should be(NumberValue(42))
       convertAnyToValue(42f) should be(NumberValue(42))
       convertAnyToValue(42d) should be(NumberValue(42))
     }
@@ -47,7 +48,7 @@ class JsonApiObjectValueConversionsSpec extends WordSpec with Matchers {
     }
     "be left alone" in {
       for {
-        value ← Seq(NullValue, TrueValue, FalseValue, StringValue("value"), NumberValue(1))
+        value <- Seq(NullValue, TrueValue, FalseValue, StringValue("value"), NumberValue(1))
       } {
         convertAnyToValue(value) should be (value)
       }

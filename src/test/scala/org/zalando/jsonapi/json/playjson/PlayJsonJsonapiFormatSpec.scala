@@ -1,12 +1,12 @@
 package org.zalando.jsonapi.json.playjson
 
-import org.scalatest.MustMatchers
+import org.scalatest.matchers.must.Matchers
 import org.zalando.jsonapi.json.JsonBaseSpec
 import org.zalando.jsonapi.model.RootObject.ResourceObject
 import org.zalando.jsonapi.model._
 import play.api.libs.json._
 
-class PlayJsonJsonapiFormatSpec extends JsonBaseSpec[JsValue] with MustMatchers with PlayJsonJsonapiFormat {
+class PlayJsonJsonapiFormatSpec extends JsonBaseSpec[JsValue] with Matchers with PlayJsonJsonapiFormat {
 
   override protected def parseJson(jsonString: String) = Json.parse(jsonString)
 

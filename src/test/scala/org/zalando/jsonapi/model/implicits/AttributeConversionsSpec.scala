@@ -1,18 +1,19 @@
 package org.zalando.jsonapi.model.implicits
 
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 import org.zalando.jsonapi.model.Attribute
 import org.zalando.jsonapi.model.JsonApiObject._
 import org.zalando.jsonapi.model.implicits.AttributeConversions._
 
-class AttributeConversionsSpec extends WordSpec with Matchers {
+class AttributeConversionsSpec extends AnyWordSpec with Matchers {
   "scala tuples" should {
     "be converted to string attributes" in {
       convertPairToAttribute("name" -> "string") should be(Attribute("name", StringValue("string")))
     }
     "be converted to number attributes" in {
       convertPairToAttribute("name" -> 42) should be(Attribute("name", NumberValue(42)))
-      convertPairToAttribute("name" -> 42l) should be(Attribute("name", NumberValue(42)))
+      convertPairToAttribute("name" -> 42L) should be(Attribute("name", NumberValue(42)))
       convertPairToAttribute("name" -> 42f) should be(Attribute("name", NumberValue(42)))
       convertPairToAttribute("name" -> 42d) should be(Attribute("name", NumberValue(42)))
     }
@@ -35,7 +36,7 @@ class AttributeConversionsSpec extends WordSpec with Matchers {
     }
     "be converted to optional number attributes" in {
       convertPairToOptionalAttribute("name" -> Option(42)) should be(Option(Attribute("name", NumberValue(42))))
-      convertPairToOptionalAttribute("name" -> Option(42l)) should be(Option(Attribute("name", NumberValue(42))))
+      convertPairToOptionalAttribute("name" -> Option(42L)) should be(Option(Attribute("name", NumberValue(42))))
       convertPairToOptionalAttribute("name" -> Option(42f)) should be(Option(Attribute("name", NumberValue(42))))
       convertPairToOptionalAttribute("name" -> Option(42d)) should be(Option(Attribute("name", NumberValue(42))))
     }

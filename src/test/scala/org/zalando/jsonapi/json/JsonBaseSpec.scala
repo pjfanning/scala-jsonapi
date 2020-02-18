@@ -1,11 +1,11 @@
 package org.zalando.jsonapi.json
 
-import org.scalatest.WordSpec
+import org.scalatest.wordspec.AnyWordSpec
 import org.zalando.jsonapi.model.JsonApiObject._
-import org.zalando.jsonapi.model.RootObject.{ ResourceObjects, ResourceObject }
+import org.zalando.jsonapi.model.RootObject.{ResourceObject, ResourceObjects}
 import org.zalando.jsonapi.model._
 
-trait JsonBaseSpec[JsonBaseType] extends WordSpec {
+trait JsonBaseSpec[JsonBaseType] extends AnyWordSpec {
   protected def parseJson(jsonString: String): JsonBaseType
 
   protected lazy val attributesJson = parseJson(attributesJsonString)

@@ -1,10 +1,11 @@
 package org.zalando.jsonapi.json.sprayjson
 
-import org.scalatest.{ MustMatchers, WordSpec }
+import org.scalatest.matchers.must.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 import org.zalando.jsonapi.json.sprayjson.SprayJsonReadSupport._
 import spray.json._
 
-class SprayJsonReadSupportSpec extends WordSpec with MustMatchers {
+class SprayJsonReadSupportSpec extends AnyWordSpec with Matchers {
   "SprayJsonReadSupport" must {
     "read existing JSON field" in {
       val json = JsObject("foo" -> JsString("bar"))
