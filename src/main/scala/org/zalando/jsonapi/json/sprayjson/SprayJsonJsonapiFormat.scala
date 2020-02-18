@@ -7,7 +7,7 @@ import org.zalando.jsonapi.model._
 import spray.json._
 import scala.language.postfixOps
 
-trait SprayJsonJsonapiFormat { self: DefaultJsonProtocol ⇒
+trait SprayJsonJsonapiFormat { self: DefaultJsonProtocol =>
 
   /**
     * Spray-JSON format for serializing and deserializing Jsonapi [[RootObject]].
@@ -41,19 +41,19 @@ trait SprayJsonJsonapiFormat { self: DefaultJsonProtocol ⇒
   implicit lazy val dataFormat: RootJsonFormat[Data] = new RootJsonFormat[Data] {
     override def write(data: Data): JsValue = {
       data match {
-        case ro: ResourceObject ⇒ ro.toJson
-        case ResourceObjects(resourceObjects) ⇒
-          val objects = resourceObjects map (ro ⇒ ro.toJson)
+        case ro: ResourceObject => ro.toJson
+        case ResourceObjects(resourceObjects) =>
+          val objects = resourceObjects map (ro => ro.toJson)
           JsArray(objects.toVector)
       }
     }
 
     override def read(json: JsValue): Data = {
       json match {
-        case obj: JsObject ⇒ obj.convertTo[ResourceObject]
-        case arr: JsArray ⇒
+        case obj: JsObject => obj.convertTo[ResourceObject]
+        case arr: JsArray =>
           ResourceObjects(arr.convertTo[List[ResourceObject]])
-        case _ ⇒
+        case _ =>
           deserializationError(s"Unable to serialize Data type from json: $json")
       }
     }
@@ -90,13 +90,13 @@ trait SprayJsonJsonapiFormat { self: DefaultJsonProtocol ⇒
     */
   implicit lazy val attributesFormat: RootJsonFormat[Attributes] = new RootJsonFormat[Attributes] {
     override def write(attributes: Attributes): JsValue = {
-      val fields = attributes map (p ⇒ p.name -> p.value.toJson)
+      val fields = attributes map (p => p.name -> p.value.toJson)
       JsObject(fields: _*)
     }
 
     override def read(json: JsValue): Attributes = {
       json.asJsObject.fields map {
-        case (name, value) ⇒
+        case (name, value) =>
           Attribute(name, value.convertTo[JsonApiObject.Value])
       } toList
     }
@@ -107,12 +107,12 @@ trait SprayJsonJsonapiFormat { self: DefaultJsonProtocol ⇒
     */
   implicit lazy val jsonApiFormat: RootJsonFormat[JsonApi] = new RootJsonFormat[JsonApi] {
     override def write(jsonApi: JsonApi): JsValue = {
-      val fields = jsonApi map (jap ⇒ jap.name -> jap.value.toJson)
+      val fields = jsonApi map (jap => jap.name -> jap.value.toJson)
       JsObject(fields: _*)
     }
 
     override def read(json: JsValue): JsonApi = {
-      json.asJsObject.fields map (jap ⇒ JsonApiProperty(jap._1, jap._2.convertTo[JsonApiObject.Value])) toList
+      json.asJsObject.fields map (jap => JsonApiProperty(jap._1, jap._2.convertTo[JsonApiObject.Value])) toList
     }
   }
 
@@ -121,7 +121,7 @@ trait SprayJsonJsonapiFormat { self: DefaultJsonProtocol ⇒
     */
   implicit lazy val errorsFormat: RootJsonFormat[Errors] = new RootJsonFormat[Errors] {
     override def write(errors: Errors): JsValue = {
-      val objects = errors map (e ⇒ e.toJson)
+      val objects = errors map (e => e.toJson)
       JsArray(objects.toVector)
     }
 
@@ -203,26 +203,26 @@ trait SprayJsonJsonapiFormat { self: DefaultJsonProtocol ⇒
     new JsonFormat[JsonApiObject.Value] {
       override def write(oValue: JsonApiObject.Value): JsValue = {
         oValue match {
-          case JsonApiObject.StringValue(s) ⇒ s.toJson
-          case JsonApiObject.NumberValue(n) ⇒ n.toJson
-          case JsonApiObject.BooleanValue(b) ⇒ b.toJson
-          case JsonApiObject.JsObjectValue(o) ⇒ o.toJson
-          case JsonApiObject.JsArrayValue(a) ⇒ a.toJson
-          case JsonApiObject.NullValue ⇒ JsNull
+          case JsonApiObject.StringValue(s) => s.toJson
+          case JsonApiObject.NumberValue(n) => n.toJson
+          case JsonApiObject.BooleanValue(b) => b.toJson
+          case JsonApiObject.JsObjectValue(o) => o.toJson
+          case JsonApiObject.JsArrayValue(a) => a.toJson
+          case JsonApiObject.NullValue => JsNull
         }
       }
 
       override def read(json: JsValue): JsonApiObject.Value = {
         json match {
-          case JsString(s) ⇒ JsonApiObject.StringValue(s)
-          case JsNumber(n) ⇒ JsonApiObject.NumberValue(n)
-          case JsBoolean(b) ⇒ JsonApiObject.BooleanValue(b)
-          case JsNull ⇒ JsonApiObject.NullValue
-          case JsArray(a) ⇒
-            JsonApiObject.JsArrayValue(a map (jsValue ⇒ jsValue.convertTo[JsonApiObject.Value]) toList)
-          case JsObject(o) ⇒
+          case JsString(s) => JsonApiObject.StringValue(s)
+          case JsNumber(n) => JsonApiObject.NumberValue(n)
+          case JsBoolean(b) => JsonApiObject.BooleanValue(b)
+          case JsNull => JsonApiObject.NullValue
+          case JsArray(a) =>
+            JsonApiObject.JsArrayValue(a map (jsValue => jsValue.convertTo[JsonApiObject.Value]) toList)
+          case JsObject(o) =>
             JsonApiObject.JsObjectValue(o map {
-              case (name, value) ⇒
+              case (name, value) =>
                 Attribute(name, value.convertTo[JsonApiObject.Value])
             } toList)
         }
@@ -234,27 +234,27 @@ trait SprayJsonJsonapiFormat { self: DefaultJsonProtocol ⇒
     */
   implicit lazy val linksFormat: RootJsonFormat[Links] = new RootJsonFormat[Links] {
     override def write(links: Links): JsValue = {
-      val fields = links map (l ⇒
+      val fields = links map (l =>
         l match {
-          case Links.Self(url, None) ⇒ "self" -> url.toJson
+          case Links.Self(url, None) => "self" -> url.toJson
           case Links.Self(url, Some(meta)) => linkValuesToJson("self", url, meta)
 
-          case Links.About(url, None) ⇒ "about" -> url.toJson
+          case Links.About(url, None) => "about" -> url.toJson
           case Links.About(url, Some(meta)) => linkValuesToJson("about", url, meta)
 
-          case Links.First(url, None) ⇒ "first" -> url.toJson
+          case Links.First(url, None) => "first" -> url.toJson
           case Links.First(url, Some(meta)) => linkValuesToJson("first", url, meta)
 
-          case Links.Last(url, None) ⇒ "last" -> url.toJson
+          case Links.Last(url, None) => "last" -> url.toJson
           case Links.Last(url, Some(meta)) => linkValuesToJson("last", url, meta)
 
-          case Links.Next(url, None) ⇒ "next" -> url.toJson
+          case Links.Next(url, None) => "next" -> url.toJson
           case Links.Next(url, Some(meta)) => linkValuesToJson("next", url, meta)
 
-          case Links.Prev(url, None) ⇒ "prev" -> url.toJson
+          case Links.Prev(url, None) => "prev" -> url.toJson
           case Links.Prev(url, Some(meta)) => linkValuesToJson("prev", url, meta)
 
-          case Links.Related(url, None) ⇒ "related" -> url.toJson
+          case Links.Related(url, None) => "related" -> url.toJson
           case Links.Related(url, Some(meta)) => linkValuesToJson("related", url, meta)
         })
       JsObject(fields: _*)
@@ -287,49 +287,49 @@ trait SprayJsonJsonapiFormat { self: DefaultJsonProtocol ⇒
     override def read(json: JsValue): Links = {
       val obj = json.asJsObject
       val self = (obj \? FieldNames.`self`) map {
-        case(JsString(url)) ⇒ Links.Self(url, None)
+        case(JsString(url)) => Links.Self(url, None)
         case (JsObject(linkObjectJson)) =>
           val linkValues = jsonToLinkValues(linkObjectJson)
           Links.Self(linkValues._1, linkValues._2)
       }
 
       val about = (obj \? FieldNames.`about`) map {
-        case(JsString(url)) ⇒ Links.About(url, None)
+        case(JsString(url)) => Links.About(url, None)
         case (JsObject(linkObjectJson)) =>
           val linkValues = jsonToLinkValues(linkObjectJson)
           Links.About(linkValues._1, linkValues._2)
       }
 
       val first = (obj \? FieldNames.`first`) map {
-        case(JsString(url)) ⇒ Links.First(url, None)
+        case(JsString(url)) => Links.First(url, None)
         case (JsObject(linkObjectJson)) =>
           val linkValues = jsonToLinkValues(linkObjectJson)
           Links.First(linkValues._1, linkValues._2)
       }
 
       val last = (obj \? FieldNames.`last`) map {
-        case(JsString(url)) ⇒ Links.Last(url, None)
+        case(JsString(url)) => Links.Last(url, None)
         case (JsObject(linkObjectJson)) =>
           val linkValues = jsonToLinkValues(linkObjectJson)
           Links.Last(linkValues._1, linkValues._2)
       }
 
       val next = (obj \? FieldNames.`next`) map {
-        case(JsString(url)) ⇒ Links.Next(url, None)
+        case(JsString(url)) => Links.Next(url, None)
         case (JsObject(linkObjectJson)) =>
           val linkValues = jsonToLinkValues(linkObjectJson)
           Links.Next(linkValues._1, linkValues._2)
       }
 
       val prev = (obj \? FieldNames.`prev`) map {
-        case(JsString(url)) ⇒ Links.Prev(url, None)
+        case(JsString(url)) => Links.Prev(url, None)
         case (JsObject(linkObjectJson)) =>
           val linkValues = jsonToLinkValues(linkObjectJson)
           Links.Prev(linkValues._1, linkValues._2)
       }
 
       val related = (obj \? FieldNames.`related`) map {
-        case(JsString(url)) ⇒ Links.Related(url, None)
+        case(JsString(url)) => Links.Related(url, None)
         case (JsObject(linkObjectJson)) =>
           val linkValues = jsonToLinkValues(linkObjectJson)
           Links.Related(linkValues._1, linkValues._2)

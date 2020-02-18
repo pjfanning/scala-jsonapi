@@ -8,36 +8,36 @@ import org.zalando.jsonapi.model.JsonApiObject._
 object JsonApiObjectValueConversions {
   implicit def convertAnyToValue(any: Any): Value = {
     any match {
-      case(string: String) ⇒
+      case(string: String) =>
         StringValue(string)
-      case(int: Int) ⇒
+      case(int: Int) =>
         NumberValue(int)
-      case(long: Long) ⇒
+      case(long: Long) =>
         NumberValue(long)
-      case(double: Double) ⇒
+      case(double: Double) =>
         NumberValue(double)
-      case(float: Float) ⇒
+      case(float: Float) =>
         NumberValue(float)
-      case true ⇒
+      case true =>
         TrueValue
-      case false ⇒
+      case false =>
         FalseValue
-      case null ⇒
+      case null =>
         NullValue
-      case value: Value ⇒
+      case value: Value =>
         value
-      case(map: Map[_,_]) ⇒
+      case(map: Map[_,_]) =>
         JsObjectValue(
           map.map {
-            case(name: String, value) ⇒
+            case(name: String, value) =>
               Attribute(name, convertAnyToValue(value))
-            case _ ⇒
+            case _ =>
               throw UnconvertibleTypeError("Maps must have string keys to be converted to JsonApiObject Values")
           }.toList
         )
-      case(seq: Seq[_]) ⇒
+      case(seq: Seq[_]) =>
         JsArrayValue(seq.map(convertAnyToValue))
-      case _ ⇒
+      case _ =>
         throw UnconvertibleTypeError(any)
    }
   }

@@ -3,7 +3,7 @@ package org.zalando.jsonapi
 import org.zalando.jsonapi.model.Links.Link
 import org.zalando.jsonapi.model.RootObject.ResourceObjects
 
-import scala.collection.immutable.{Seq ⇒ ImmutableSeq}
+import scala.collection.immutable.{Seq => ImmutableSeq}
 
 /**
   * The model package, containing partially covered Jsonapi specification.

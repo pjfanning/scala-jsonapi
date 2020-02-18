@@ -4,7 +4,7 @@ name := "scala-jsonapi"
 
 scalaVersion := "2.13.1"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.10"")
+crossScalaVersions := Seq(scalaVersion.value, "2.12.10")
 
 scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation")
 
