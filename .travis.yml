@@ -3,7 +3,7 @@ jdk:
   - openjdk8
 scala:
   - 2.12.11
-  - 2.13.1
+  - 2.13.2
 script:
   - sbt ++$TRAVIS_SCALA_VERSION coverage test coverageReport
 after_success:
