@@ -17,7 +17,7 @@ object JsonApiObjectValueConversions {
       case(double: Double) =>
         NumberValue(double)
       case(float: Float) =>
-        NumberValue(float)
+        NumberValue(BigDecimal(float))
       case true =>
         TrueValue
       case false =>
