@@ -11,7 +11,7 @@ scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation")
 libraryDependencies ++= {
 
   Seq(
-    "io.spray"          %% "spray-json"     % "1.3.5"     % "provided",
+    "io.spray"          %% "spray-json"     % "1.3.6"     % "provided",
     "com.typesafe.play" %% "play-json"      % "2.9.1"     % "provided",
     "org.scalatest"     %% "scalatest"      % "3.2.3"     % Test
   )
